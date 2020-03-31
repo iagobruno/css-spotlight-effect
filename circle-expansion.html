@@ -1,0 +1,115 @@
+<style>
+  .circle {
+    border-radius: 50%;
+    border-width: 0px;
+    border-color: #222222;
+    border-style: solid;
+    box-sizing: content-box !important;
+    background-color: transparent;
+    position: fixed;
+    height: 0px;
+    width: 0px;
+    top: 0;
+    left: 0;
+    z-index: 999999;
+    transition-duration: 2s;
+    transition-timing-function: ease;
+  }
+
+  span {
+    top: calc(50vh - 10px);
+    left: 0;
+    width: 100vw;
+    position: absolute;
+    text-align: center;
+    font-size: 20px;
+    opacity: .8;
+    pointer-events: none;
+  }
+</style>
+
+
+<span>Clique em qualquer lugar</span>
+
+
+<script>
+  const circle = document.createElement('div')
+  circle.classList.add('circle')
+  document.body.append(circle)
+
+
+  document.body.addEventListener('click', async (event) => {
+    const mouseX = event.x
+    const mouseY = event.y
+    const radius = getDistanceBetweenPointAndFarthestScreenCorner(event)
+
+    circle.style.transitionDuration = '0ms'
+    circle.style.borderWidth = `0px`
+    circle.style.left = `${mouseX}px`
+    circle.style.top = `${mouseY}px`
+
+    await sleep(100)
+
+    circle.style.transitionDuration = ''
+    circle.style.borderWidth = `${radius}px`
+    circle.style.left = `${mouseX - radius}px`
+    circle.style.top = `${mouseY - radius}px`
+  })
+
+  function getDistanceBetweenPointAndFarthestScreenCorner(point) {
+    const corners = {
+      topLeft: {
+        x: 0,
+        y: 0,
+      },
+      topRight: {
+        x: window.innerWidth,
+        y: 0,
+      },
+      bottomLeft: {
+        x: 0,
+        y: window.innerHeight,
+      },
+      bottomRight: {
+        x: window.innerWidth,
+        y: window.innerHeight,
+      },
+    }
+
+    // https://stackoverflow.com/a/20916980/2789759
+    const distanceFromTopLeftCorner = Math.sqrt(
+      (corners.topLeft.x - point.x) ** 2
+      +
+      (corners.topLeft.y - point.y) ** 2
+    )
+    const distanceFromBottomLeftCorner = Math.sqrt(
+      (corners.bottomLeft.x - point.x) ** 2
+      +
+      (corners.bottomLeft.y - point.y) ** 2
+    )
+    const distanceFromTopRightCorner = Math.sqrt(
+      (corners.topRight.x - point.x) ** 2
+      +
+      (corners.topRight.y - point.y) ** 2
+    )
+    const distanceFromBottomRightCorner = Math.sqrt(
+      (corners.bottomRight.x - point.x) ** 2
+      +
+      (corners.bottomRight.y - point.y) ** 2
+    )
+
+    return Math.max(
+      distanceFromTopLeftCorner,
+      distanceFromBottomLeftCorner,
+      distanceFromTopRightCorner,
+      distanceFromBottomRightCorner
+    )
+  }
+
+  function sleep(ms = 250) {
+    return new Promise(resolve => {
+      setTimeout(resolve, ms)
+    })
+  }
+
+</script>
