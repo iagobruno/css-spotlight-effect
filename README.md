@@ -2,9 +2,9 @@
 
 A simple spotlight effect that gives focus to a specific place on screen.
 
-[DEMO](https://iagobruno.github.io/css-spotlight-effect/spotlight.html)
+[![](https://img.shields.io/badge/Online-Demo-brightgreen.svg)](https://iagobruno.github.io/css-spotlight-effect/)
 
-[![demo print](demo-print.png)](https://iagobruno.github.io/css-spotlight-effect/spotlight.html)
+[![](demo.gif)](https://iagobruno.github.io/css-spotlight-effect/)
 
 ## Motivation
 
